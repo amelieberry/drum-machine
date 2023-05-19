@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
 
-// TODO store drum keys values - key, id, audio url
 const drumKeys = [
   {
     id: 'Heater-1',
@@ -60,26 +59,31 @@ const drumKeys = [
 ]
 
 function App() {
-  // TODO set initial state of display
   const [ display, setDisplay ] = useState('Start Playing');
 
-  /**
-   * TODO create drum pad component
-   * map drumKeys to render 9 buttons displaying their respective key (Q, W, E, A, S, D, Z, X, C)
-   * Each key contains a audio element with src="its audio url" and id="its key value e.g. Q"
-  */
-
- // TODO Event listener click and event listener key press
-
- // TODO change state of display to triggered audio's name
+  // TODO user stories 5 & 6
 
   return (
     <div id="drum-machine" className="App">
       <div className='container'>
         <div id="display">{display}</div>
-        <div className='drum-pad-container'>{drumKeys.map((key) => (
-          <button className='drum-pad' key={key.id}>{key.keyTrigger}</button>
-        ))}</div>
+        <div className='drum-pad-container'>
+          {drumKeys.map((key) => (
+            <button 
+              className='drum-pad' 
+              key={key.id}
+              id={key.id}
+              onClick={() => setDisplay(key.id)} 
+            >
+              <audio 
+                className='clip' 
+                id={key.keyTrigger} 
+                src={key.url}
+              />
+              {key.keyTrigger}
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   );
