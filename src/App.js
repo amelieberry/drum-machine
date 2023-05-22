@@ -61,7 +61,23 @@ const drumKeys = [
 function App() {
   const [ display, setDisplay ] = useState('Start Playing');
 
-  // TODO user stories 5 & 6
+  /**
+   * TODO user story 5 - When I click on a .drum-pad element, the audio clip contained in its child audio element should be triggered.
+   * TODO user story 6 - When I press the trigger key associated with each .drum-pad, the audio clip contained in its child audio element should be triggered
+   * TODO user story 7 - When a .drum-pad is triggered, a string describing the associated audio clip is displayed as the inner text of the #display element
+   */
+
+  // play sound and display text
+  const playAudio = (e) => {
+    // User Story 7
+    setDisplay(e.target.id);
+
+    // user story 5
+    e.target.querySelector('audio').play();
+  }
+
+  // user story 6
+  
 
   return (
     <div id="drum-machine" className="App">
@@ -73,7 +89,7 @@ function App() {
               className='drum-pad' 
               key={key.id}
               id={key.id}
-              onClick={() => setDisplay(key.id)} 
+              onClick={(e) => playAudio(e)} 
             >
               <audio 
                 className='clip' 
