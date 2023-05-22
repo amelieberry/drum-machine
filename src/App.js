@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 
 const drumKeys = [
@@ -61,38 +61,44 @@ const drumKeys = [
 function App() {
   const [ display, setDisplay ] = useState('Start Playing');
 
-  /**
-   * TODO user story 5 - When I click on a .drum-pad element, the audio clip contained in its child audio element should be triggered.
-   * TODO user story 6 - When I press the trigger key associated with each .drum-pad, the audio clip contained in its child audio element should be triggered
-   * TODO user story 7 - When a .drum-pad is triggered, a string describing the associated audio clip is displayed as the inner text of the #display element
-   */
+  // Play audio and update display on click
+  const playAudio = (key) => {
+    setDisplay(key.id);
 
-  // play sound and display text
-  const playAudio = (e) => {
-    // User Story 7
-    setDisplay(e.target.id);
-
-    // user story 5
-    e.target.querySelector('audio').play();
+    document.getElementById(key.keyTrigger).play();
   }
 
-  // user story 6
-  
+  // Play audio and update display on keypress
+  const keyPressHandler = (e) => {
+    console.log(e);
+    const keyPressed = document.getElementById(e.key.toUpperCase());
+    if (keyPressed) {
+      keyPressed.play();
+      setDisplay(keyPressed.parentElement.id)
+    }
+  }
+
+  // listen for keypress
+  useEffect(() => {
+    document.addEventListener('keypress', keyPressHandler);
+
+    return () => document.removeEventListener('keypress', keyPressHandler)
+  }, [])
 
   return (
     <div id="drum-machine" className="App">
-      <div className='container'>
+      <div className="container">
         <div id="display">{display}</div>
-        <div className='drum-pad-container'>
+        <div className="drum-pad-container">
           {drumKeys.map((key) => (
             <button 
-              className='drum-pad' 
+              className="drum-pad"
               key={key.id}
               id={key.id}
-              onClick={(e) => playAudio(e)} 
+              onClick={() => playAudio(key)} 
             >
               <audio 
-                className='clip' 
+                className="clip" 
                 id={key.keyTrigger} 
                 src={key.url}
               />
